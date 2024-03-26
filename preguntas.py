@@ -177,14 +177,9 @@ def pregunta_10():
     3   D                  1:2:3:5:5:7
     4   E  1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
-    tabla = tbl0.groupby("_c1")["_c2"]
-    tabla = tabla.apply(lambda x: ":".join(x.astype(str)))
-    tabla = tabla.reset_index()
+    tabla = tbl0.sort_values(by=['_c2']).groupby("_c1")["_c2"].apply(lambda x: ":".join(x.astype(str)))
+    tabla = tabla.reset_index(name="_c2").set_index("_c1")
 
-    tabla["_c2"] = tabla["_c2"].apply(lambda x: ":".join(sorted(x.split(":"))))
-    tabla = tabla.sort_values(by="_c1")
-
-    tabla = tabla.rename(columns={"_c1": "_c0", "_c2": "_c1"})
     return tabla
 
 
@@ -230,7 +225,7 @@ def pregunta_12():
     tabla = tbl2.groupby("_c0")[["_c5a", "_c5b"]]
     tabla = tabla.apply(lambda x: ",".join(x["_c5a"] + ":" + x["_c5b"].astype(str)))
     tabla = tabla.reset_index()
-
+    
     tabla = tabla.rename(columns={0: "_c5"})
     tabla["_c5"] = tabla["_c5"].apply(lambda x: ",".join(sorted(x.split(",")))
     ) 
@@ -259,6 +254,6 @@ def pregunta_13():
 #     print(f"pregunta_0{i}()")
 #     print(eval(f"pregunta_0{i}()"))
 
-# for i in range(10, 14):
-#     print(f"pregunta_{i}()")
-#     print(eval(f"pregunta_{i}()"))
+for i in range(10, 11):
+    print(f"pregunta_{i}()")
+    print(eval(f"pregunta_{i}()"))
